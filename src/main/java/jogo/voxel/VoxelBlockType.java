@@ -5,9 +5,11 @@ import com.jme3.material.Material;
 
 public abstract class VoxelBlockType {
     private final String name;
+    private final float hardness;
 
-    protected VoxelBlockType(String name) {
+    protected VoxelBlockType(String name, float hardness) {
         this.name = name;
+        this.hardness=hardness;
     }
 
     public String getName() {
@@ -21,6 +23,8 @@ public abstract class VoxelBlockType {
      * Returns the Material for this block type. Override in subclasses for custom materials.
      */
     public abstract Material getMaterial(AssetManager assetManager);
+
+    public float hardness(){return 1.0f;}
 
     /**
      * Returns the Material for this block type at a specific block position.

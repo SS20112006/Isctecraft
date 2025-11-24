@@ -15,4 +15,5 @@ public class Stick extends Item{
                 ", position=" + position +
                 '}';
     }
+
 }

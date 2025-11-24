@@ -6,7 +6,7 @@ import jogo.voxel.VoxelBlockType;
 
 public class AirBlockType extends VoxelBlockType {
     public AirBlockType() {
-        super("air");
+        super("air",0.0f);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package jogo;
 
 import com.jme3.app.SimpleApplication;
+
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.system.AppSettings;
@@ -15,10 +16,16 @@ import jogo.appstate.InteractionAppState;
 import jogo.engine.GameRegistry;
 import jogo.engine.RenderIndex;
 
+
+
 /**
  * Main application entry.
  */
 public class Jogo extends SimpleApplication {
+
+
+
+
 
     public static void main(String[] args) {
         Jogo app = new Jogo();
@@ -54,6 +61,8 @@ public class Jogo extends SimpleApplication {
         WorldAppState world = new WorldAppState(rootNode, assetManager, physicsSpace, cam, input);
         stateManager.attach(world);
 
+
+
         // Engine registry and render layers
         GameRegistry registry = new GameRegistry();
         RenderIndex renderIndex = new RenderIndex();
@@ -67,6 +76,7 @@ public class Jogo extends SimpleApplication {
 
         PlayerAppState player = new PlayerAppState(rootNode, assetManager, cam, input, physicsSpace, world);
         stateManager.attach(player);
+
 
         // Post-processing: SSAO for subtle contact shadows
         try {
@@ -84,5 +94,10 @@ public class Jogo extends SimpleApplication {
 
         // HUD (just a crosshair for now)
         stateManager.attach(new HudAppState(guiNode, assetManager));
+
+
     }
+
+
+
 }

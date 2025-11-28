@@ -18,6 +18,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import jogo.voxel.blocks.DirtBlockType;
+import jogo.util.FastNoiseLite;
+import jogo.voxel.VoxelPalette;
+
 public class VoxelWorld {
     private final AssetManager assetManager;
     private final int sizeX, sizeY, sizeZ;
@@ -106,14 +110,42 @@ public class VoxelWorld {
     //TODO this is where you'll generate your world
     public void generateLayers() {
         //generate a SINGLE block under the player:
-        Vector3i pos = new Vector3i(getRecommendedSpawn());
-        setBlock(pos.x, pos.y, pos.z, VoxelPalette.STONE_ID);
-        //
-        for(int x = 0; x< sizeX; x++ ){
-            for(int z = 0; z< sizeZ; z++){
-                setBlock(x, groundHeight, z, VoxelPalette.STONE_ID);
+        FastNoiseLite fastNoise = new FastNoiseLite();
+        fastNoise.SetNoiseType(FastNoiseLite.NoiseType.Perlin); // Escolhe o tipo de ruído
+        fastNoise.SetFrequency(0.015f); // Ajusta a frequência
+        fastNoise.SetSeed(12345); // Define uma semente
+
+        int minHeight = 5; // Altura mínima
+        int maxHeight = 25; // Altura máxima
+
+        for (int x = 0; x < sizeX; x++) {
+            for (int z = 0; z < sizeZ; z++) {
+                float noiseValue = fastNoise.GetNoise(x, z);
+
+                int alturaReal = (int) (minHeight + (noiseValue + 1.0f) / 2.0f * (maxHeight - minHeight));
+                alturaReal = Math.min(alturaReal, sizeY - 1);
+                alturaReal = Math.max(alturaReal, 0);
+
+                byte idBlocoSuperficie;
+                // Ajusta os limiares conforme achares melhor para a transição entre terra e pedra
+                if (noiseValue < 0.05f) { // mais baixo =terra
+                    idBlocoSuperficie = VoxelPalette.STONE_ID;
+                } else { //  mais alto =Pedra
+                    idBlocoSuperficie = VoxelPalette.DIRT_ID;
+                }
+
+                for (int y = 0; y <= alturaReal; y++) {
+                    if (y == alturaReal) {
+                        // Coloca o bloco de superfície (terra ou pedra)
+                        setBlock(x, y, z, idBlocoSuperficie);
+                    } else {
+                        // Coloca blocos de subsolo (por exemplo, pedra)
+                        setBlock(x, y, z, VoxelPalette.STONE_ID);
+                    }
+                }
             }
         }
+
     }
 
     public int getTopSolidY(int x, int z) {

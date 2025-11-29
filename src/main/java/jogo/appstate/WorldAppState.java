@@ -55,7 +55,7 @@ public class WorldAppState extends BaseAppState {
         worldNode.addLight(sun);
 
         // Voxel world 16x16x16 (reduced size for simplicity)
-        voxelWorld = new VoxelWorld(assetManager, 320, 32, 320);
+        voxelWorld = new VoxelWorld(assetManager, 320, 32, 320, 12345, 0.015f, 5, 25, 8);
         voxelWorld.generateLayers();
         voxelWorld.buildMeshes();
         voxelWorld.clearAllDirtyFlags();

@@ -36,17 +36,28 @@ public class VoxelWorld {
     private boolean culling = true;   // Culling: On by default
     private int groundHeight = 8; // baseline Y level
 
+    private int seed;
+    private float frequency;
+    private int minHeight;
+    private int maxHeight;
+    private int stoneDepthThreshold;
+
     // Chunked world data
     private final int chunkSize = Chunk.SIZE;
     private final int chunkCountX, chunkCountY, chunkCountZ;
     private final Chunk[][][] chunks;
 
-    public VoxelWorld(AssetManager assetManager, int sizeX, int sizeY, int sizeZ) {
+    public VoxelWorld(AssetManager assetManager, int sizeX, int sizeY, int sizeZ,int seed, float frequency, int minHeight, int maxHeight, int stoneDepthThreshold) {
         this.assetManager = assetManager;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.sizeZ = sizeZ;
         this.palette = VoxelPalette.defaultPalette();
+        this.seed = seed;
+        this.frequency = frequency;
+        this.minHeight = minHeight;
+        this.maxHeight = maxHeight;
+        this.stoneDepthThreshold = stoneDepthThreshold;
         // Remove old vox array
         // this.vox = new byte[sizeX][sizeY][sizeZ];
         this.chunkCountX = (int)Math.ceil(sizeX / (float)chunkSize);
@@ -112,11 +123,11 @@ public class VoxelWorld {
         //generate a SINGLE block under the player:
         FastNoiseLite fastNoise = new FastNoiseLite();
         fastNoise.SetNoiseType(FastNoiseLite.NoiseType.Perlin); // Escolhe o tipo de ruído
-        fastNoise.SetFrequency(0.015f); // Ajusta a frequência
-        fastNoise.SetSeed(12345); // Define uma semente
+        fastNoise.SetFrequency(this.frequency); // Ajusta a frequência
+        fastNoise.SetSeed(this.seed); // Define uma semente
 
-        int minHeight = 5; // Altura mínima
-        int maxHeight = 25; // Altura máxima
+        int minHeight = this.minHeight; // Altura mínima
+        int maxHeight = this.maxHeight; // Altura máxima
 
         for (int x = 0; x < sizeX; x++) {
             for (int z = 0; z < sizeZ; z++) {
@@ -136,10 +147,10 @@ public class VoxelWorld {
 
                 for (int y = 0; y <= alturaReal; y++) {
                     if (y == alturaReal) {
-                        // Coloca o bloco de superfície (terra ou pedra)
+                        // Coloca o bloco de superfície
                         setBlock(x, y, z, idBlocoSuperficie);
                     } else {
-                        // Coloca blocos de subsolo (por exemplo, pedra)
+                        // Coloca blocos de baixo da superficie
                         setBlock(x, y, z, VoxelPalette.STONE_ID);
                     }
                 }

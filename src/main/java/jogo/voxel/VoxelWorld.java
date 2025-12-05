@@ -121,6 +121,8 @@ public class VoxelWorld {
     //TODO this is where you'll generate your world
     public void generateLayers() {
         //generate a SINGLE block under the player:
+        long startTime = System.nanoTime();
+
         FastNoiseLite fastNoise = new FastNoiseLite();
         fastNoise.SetNoiseType(FastNoiseLite.NoiseType.Perlin); // Escolhe o tipo de ruído
         fastNoise.SetFrequency(this.frequency); // Ajusta a frequência
@@ -156,6 +158,9 @@ public class VoxelWorld {
                 }
             }
         }
+        long endTime= System.nanoTime();
+        long duracao =(endTime -startTime)/1_000_000;// converte para ms
+        System.out.println("Tempo de geração: " + duracao + " ms");
 
     }
 

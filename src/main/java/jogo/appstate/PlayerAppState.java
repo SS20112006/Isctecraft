@@ -11,6 +11,8 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
+
+import jogo.framework.math.Vec3;
 import jogo.gameobject.character.Player;
 
 public class PlayerAppState extends BaseAppState {
@@ -60,7 +62,7 @@ public class PlayerAppState extends BaseAppState {
         rootNode.attachChild(playerNode);
 
         // Engine-neutral player entity (no engine visuals here)
-        player = new Player();
+        player = new Player("Player", new Vec3(0, 0, 0), 100, 10);
 
         // BetterCharacterControl(radius, height, mass)
         characterControl = new BetterCharacterControl(0.42f, 1.8f, 80f);

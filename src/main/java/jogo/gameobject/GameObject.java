@@ -29,4 +29,12 @@ public abstract class GameObject {
     public void setPosition(float x, float y, float z) {
         this.position.set(x, y, z);
     }
+     /**
+     * Chamado quando o jogador interage com este objeto.
+     * O comportamento padrão é não fazer nada.
+     */
+    public void onInteract() {
+        System.out.println("Interagiu com " + name + " (sem efeito definido).");
+    }
 }
+

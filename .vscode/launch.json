@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Run Jogo",
+            "request": "launch",
+            "mainClass": "jogo.Jogo",
+            "projectName": "DSA_Jogo_2025_SimaoSousa_130768",
+            "vmArgs": "-XstartOnFirstThread"
+        }
+    ]
+}

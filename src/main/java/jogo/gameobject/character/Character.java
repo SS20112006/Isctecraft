@@ -44,4 +44,7 @@ public abstract class Character extends GameObject {
         }
     } // para ver se o personagem morreu
 
+    public void move(Vec3 direction) {
+        // Implementação vazia por defeito, ou lógica básica
+    }
 }

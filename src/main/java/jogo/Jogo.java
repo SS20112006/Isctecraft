@@ -15,6 +15,7 @@ import jogo.appstate.RenderAppState;
 import jogo.appstate.InteractionAppState;
 import jogo.engine.GameRegistry;
 import jogo.engine.RenderIndex;
+import jogo.gameobject.prop.Chest;
 
 
 
@@ -61,18 +62,23 @@ public class Jogo extends SimpleApplication {
         WorldAppState world = new WorldAppState(rootNode, assetManager, physicsSpace, cam, input);
         stateManager.attach(world);
 
+        HudAppState hud = new HudAppState(guiNode, assetManager);
+        stateManager.attach(hud);
+
 
 
         // Engine registry and render layers
         GameRegistry registry = new GameRegistry();
         RenderIndex renderIndex = new RenderIndex();
         stateManager.attach(new RenderAppState(rootNode, assetManager, registry, renderIndex));
-        stateManager.attach(new InteractionAppState(rootNode, cam, input, renderIndex, world));
+        stateManager.attach(new InteractionAppState(rootNode, cam, input, renderIndex, world,registry, hud));
 
         // Demo objects
-        // Chest chest = new Chest();
-        // chest.setPosition(26.5f, world.getRecommendedSpawnPosition().y - 2f, 26.5f);
-        // registry.add(chest);
+        
+        //jogo.framework.math.Vec3 pos = new jogo.framework.math.Vec3(161,19,162);
+        //Chest chest = new Chest("bau",pos);
+        //chest.setPosition(26.5f, world.getRecommendedSpawnPosition().y - 2f, 26.5f);
+        //registry.add(chest);
 
         PlayerAppState player = new PlayerAppState(rootNode, assetManager, cam, input, physicsSpace, world);
         stateManager.attach(player);
@@ -93,7 +99,8 @@ public class Jogo extends SimpleApplication {
         }
 
         // HUD (just a crosshair for now)
-        stateManager.attach(new HudAppState(guiNode, assetManager));
+       
+        
 
 
     }

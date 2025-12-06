@@ -17,5 +17,9 @@ public class Vec3 {
         hash = 31 * hash + Float.floatToIntBits(this.z);
         return hash;
     }
+   
+    public Vec3 add(Vec3 other) {
+        return new Vec3(this.x + other.x, this.y + other.y, this.z + other.z);
+    }
 }
 

@@ -8,10 +8,10 @@ public class PrimeiroNPC extends Character{
     private boolean friendly;
 
     public PrimeiroNPC(String name, int health, boolean friendly, Vec3 position) {
-        super(name);
+        super(name,health, health, 2.0f);
         this.setPosition(position);
         this.friendly = friendly;
-        this.setHealth(health);
+    
     }
 
     public boolean isFriendly() {

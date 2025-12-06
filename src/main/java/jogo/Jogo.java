@@ -80,6 +80,16 @@ public class Jogo extends SimpleApplication {
         //chest.setPosition(26.5f, world.getRecommendedSpawnPosition().y - 2f, 26.5f);
         //registry.add(chest);
 
+        // chest
+        jogo.framework.math.Vec3 chestPos = new jogo.framework.math.Vec3(164, 22, 161); // x+2
+        Chest chest = new Chest("Bau do Tesouro", chestPos);
+        registry.add(chest);
+        // poçao
+        // Construtor: Nome, Posição, Cura
+        jogo.framework.math.Vec3 potionPos = new jogo.framework.math.Vec3(162, 22, 163); // z+2
+        jogo.gameobject.item.HealthPotion potion = new jogo.gameobject.item.HealthPotion("Pocao Magica", potionPos, 50);
+        registry.add(potion);
+
         PlayerAppState player = new PlayerAppState(rootNode, assetManager, cam, input, physicsSpace, world);
         stateManager.attach(player);
 

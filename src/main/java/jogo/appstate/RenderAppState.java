@@ -17,6 +17,7 @@ import jogo.framework.math.Vec3;
 import jogo.gameobject.GameObject;
 import jogo.gameobject.character.Player;
 import jogo.gameobject.item.Item;
+import jogo.gameobject.prop.Chest;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -90,6 +91,10 @@ public class RenderAppState extends BaseAppState {
         } else if (obj instanceof Item) {
             Geometry g = new Geometry(obj.getName(), new Box(0.3f, 0.3f, 0.3f));
             g.setMaterial(colored(ColorRGBA.Yellow));
+            return g;
+        } else if (obj instanceof Chest) {
+            Geometry g = new Geometry(obj.getName(), new Box(0.3f, 0.3f, 0.3f));
+            g.setMaterial(colored(ColorRGBA.Blue));
             return g;
         }
         return null;

@@ -36,6 +36,69 @@ public class Inventory {
         
         return amount == 0; // Retorna false se não conseguiu guardar tudo
     }
+
+    public boolean removeItem(Item item, int amount) {
+        // Verificar primeiro se temos items suficientes
+        if (!hasItem(item, amount)) return false;
+        int remainingToRemove = amount;
+        
+        // Iterar de trás para a frente para remover stacks vazios com segurança se usássemos índices,
+        // mas com foreach e remove do iterador seria mais complexo.
+        // Vamos usar uma lista temporária ou iterar e modificar.
+        
+        // Estratégia simples: Iterar pelos slots
+        for (int i = 0; i < slots.size(); i++) {
+            ItemStack stack = slots.get(i);
+            if (stack.getItem().getClass().equals(item.getClass())) {
+                int take = Math.min(remainingToRemove, stack.getQuantity());
+                stack.remove(take);
+                remainingToRemove -= take;
+                
+                if (stack.getQuantity() <= 0) {
+                    slots.remove(i);
+                    i--; // Ajustar índice após remoção
+                }
+                
+                if (remainingToRemove <= 0) return true;
+            }
+        }
+        return remainingToRemove <= 0;
+    }
+    
+    public boolean hasItem(Item item, int amount) {
+        int count = 0;
+        for (ItemStack stack : slots) {
+            if (stack.getItem().getClass().equals(item.getClass())) {
+                count += stack.getQuantity();
+            }
+        }
+        return count >= amount;
+    }
+
+    public boolean canAddItem(Item item, int amount) {
+        int remainingAmount = amount;
+        
+        //Verificar espaço em stacks existentes
+        for (ItemStack stack : slots) { // ':' serve para for each 
+            if (stack.getItem().getClass().equals(item.getClass())) {
+                int space = stackLimit - stack.getQuantity();
+                if (space > 0) {
+                    remainingAmount -= space;
+                    if (remainingAmount <= 0) return true;
+                }
+            }
+        }
+        
+        //Verificar se há slots vazios para o que sobra
+        if (remainingAmount > 0) {
+            //Quantos stacks novos precisamos?
+            int stacksNeeded = (int) Math.ceil((double) remainingAmount / stackLimit);
+            int emptySlots = capacity - slots.size();
+            return emptySlots >= stacksNeeded;
+        }
+        
+        return true;
+    }
     
     public List<ItemStack> getSlots() {
         return slots;

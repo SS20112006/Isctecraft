@@ -2,17 +2,20 @@ package jogo.gameobject.character;
 
 import jogo.gameobject.GameObject;
 import jogo.framework.math.Vec3;
+import jogo.gameobject.inventory.Inventory;
 
 public abstract class Character extends GameObject {
 
     protected int health;
     protected int maxHealth;
     protected float speed;
+    protected Inventory inventory;
     protected Character(String name, int health, int maxHealth, float speed) {
         super(name);
         this.health = maxHealth; // para começar com a vida cheia
         this.maxHealth = maxHealth;
         this.speed = speed;
+        this.inventory = new Inventory(6);// Tem 6 slots
     }
 
     // Example state hooks students can extend
@@ -34,8 +37,16 @@ public abstract class Character extends GameObject {
         this.speed = speed;
     }
 
-    public int getHealth() { return health; }
-    public void setHealth(int health) { this.health = health; }
+    public int getHealth() { 
+        return health; 
+    }
+    public void setHealth(int health) { 
+        this.health = health; 
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
 
     public void takeDamage(int amount) {
         this.health -= amount;

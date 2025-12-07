@@ -41,7 +41,8 @@ public class PlayerAppState extends BaseAppState {
     private Vector3f spawnPosition = new Vector3f(25.5f, 12f, 25.5f);
     private PointLight playerLight;
 
-    public PlayerAppState(Node rootNode, AssetManager assetManager, Camera cam, InputAppState input, PhysicsSpace physicsSpace, WorldAppState world) {
+    public PlayerAppState(Node rootNode, AssetManager assetManager, Camera cam, InputAppState input,
+            PhysicsSpace physicsSpace, WorldAppState world) {
         this.rootNode = rootNode;
         this.assetManager = assetManager;
         this.cam = cam;
@@ -86,13 +87,17 @@ public class PlayerAppState extends BaseAppState {
         this.pitch = -0.35f;
         applyViewToCamera();
     }
+    public Player getPlayer() {
+        return player;
+    }
 
     @Override
     public void update(float tpf) {
         // respawn on request
         if (input.consumeRespawnRequested()) {
             // refresh spawn from world in case terrain changed
-            if (world != null) spawnPosition = world.getRecommendedSpawnPosition();
+            if (world != null)
+                spawnPosition = world.getRecommendedSpawnPosition();
             respawn();
         }
 
@@ -100,7 +105,8 @@ public class PlayerAppState extends BaseAppState {
         if (!input.isMouseCaptured()) {
             characterControl.setWalkDirection(Vector3f.ZERO);
             // keep light with player even when paused
-            if (playerLight != null) playerLight.setPosition(playerNode.getWorldTranslation().add(0, eyeHeight, 0));
+            if (playerLight != null)
+                playerLight.setPosition(playerNode.getWorldTranslation().add(0, eyeHeight, 0));
             applyViewToCamera();
             return;
         }
@@ -133,7 +139,8 @@ public class PlayerAppState extends BaseAppState {
         applyViewToCamera();
 
         // update light to follow head
-        if (playerLight != null) playerLight.setPosition(playerNode.getWorldTranslation().add(0, eyeHeight, 0));
+        if (playerLight != null)
+            playerLight.setPosition(playerNode.getWorldTranslation().add(0, eyeHeight, 0));
     }
 
     private void respawn() {
@@ -149,7 +156,7 @@ public class PlayerAppState extends BaseAppState {
         float sinY = FastMath.sin(yaw);
         float cosY = FastMath.cos(yaw);
         Vector3f forward = new Vector3f(-sinY, 0, -cosY); // -Z when yaw=0
-        Vector3f left = new Vector3f(-cosY, 0, sinY);     // -X when yaw=0
+        Vector3f left = new Vector3f(-cosY, 0, sinY); // -X when yaw=0
         return left.mult(inputXZ.x).addLocal(forward.mult(inputXZ.z));
     }
 
@@ -178,10 +185,12 @@ public class PlayerAppState extends BaseAppState {
     }
 
     @Override
-    protected void onEnable() { }
+    protected void onEnable() {
+    }
 
     @Override
-    protected void onDisable() { }
+    protected void onDisable() {
+    }
 
     public void refreshPhysics() {
         if (characterControl != null) {

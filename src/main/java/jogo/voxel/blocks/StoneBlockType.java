@@ -9,7 +9,7 @@ import jogo.voxel.VoxelBlockType;
 
 public class StoneBlockType extends VoxelBlockType {
     public StoneBlockType() {
-        super("stone",1.0f);
+        super("stone",8.0f);
     }
     // isSolid() inherits true from base
 

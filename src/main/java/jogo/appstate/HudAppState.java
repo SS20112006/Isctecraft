@@ -7,12 +7,16 @@ import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA; // Importante
 import com.jme3.scene.Node;
+import jogo.gameobject.character.Character;
+import jogo.gameobject.inventory.ItemStack;
+import jogo.appstate.PlayerAppState; 
+
 public class HudAppState extends BaseAppState {
     private final Node guiNode;
     private final AssetManager assetManager;
     private BitmapText crosshair;
-    
-    // novo campo
+    private PlayerAppState playerAppState;
+    private BitmapText inventoryText;
     private BitmapText messageText;
     private float messageTimer = 0;
     public HudAppState(Node guiNode, AssetManager assetManager) {
@@ -38,6 +42,13 @@ public class HudAppState extends BaseAppState {
         messageText.setText(""); // Começa vazio
         messageText.setLocalTranslation(10, app.getCamera().getHeight() - 10, 0); // Canto superior esquerdo
         guiNode.attachChild(messageText);
+
+        //Texto inventario
+        inventoryText = new BitmapText(assetManager.loadFont("Interface/Fonts/Default.fnt"), false);
+        inventoryText.setSize(assetManager.loadFont("Interface/Fonts/Default.fnt").getCharSet().getRenderedSize());
+        inventoryText.setColor(ColorRGBA.White);
+        inventoryText.setLocalTranslation(10, 200, 0); // Ajustar posição Y conforme necessário
+        guiNode.attachChild(inventoryText);
         
         System.out.println("HudAppState initialized");
     }
@@ -64,7 +75,29 @@ public class HudAppState extends BaseAppState {
                 messageText.setText(""); // Limpar mensagem
             }
         }
+        updateInventoryUI();
     }
+
+    private void updateInventoryUI() {
+        if (playerAppState == null) {
+             playerAppState = getState(PlayerAppState.class);
+             if (playerAppState == null) return;
+        }
+        Character player = playerAppState.getPlayer(); 
+        
+    if (player != null && player.getInventory() != null) {
+        StringBuilder sb = new StringBuilder("Inventory:\n");
+        int i = 1;
+        for (ItemStack stack : player.getInventory().getSlots()) {
+            sb.append(i++).append(". ")
+              .append(stack.getItem().getName()) 
+              .append(" x").append(stack.getQuantity()).append("\n");
+        }
+        inventoryText.setText(sb.toString());
+    }
+    }
+
+
     @Override
     protected void cleanup(Application app) {
         if (crosshair != null) crosshair.removeFromParent();
@@ -74,4 +107,6 @@ public class HudAppState extends BaseAppState {
     protected void onEnable() { }
     @Override
     protected void onDisable() { }
+
+    
 }

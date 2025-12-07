@@ -139,20 +139,16 @@ public class VoxelWorld {
                 alturaReal = Math.min(alturaReal, sizeY - 1);
                 alturaReal = Math.max(alturaReal, 0);
 
-                byte idBlocoSuperficie;
-                // Ajusta os limiares conforme achares melhor para a transição entre terra e pedra
-                if (noiseValue < 0.05f) { // mais baixo =terra
-                    idBlocoSuperficie = VoxelPalette.STONE_ID;
-                } else { //  mais alto =Pedra
-                    idBlocoSuperficie = VoxelPalette.DIRT_ID;
-                }
-
+                //Terra no topo, Pedra em baixo
                 for (int y = 0; y <= alturaReal; y++) {
                     if (y == alturaReal) {
-                        // Coloca o bloco de superfície
-                        setBlock(x, y, z, idBlocoSuperficie);
+                        // O topo é SEMPRE Terra
+                        setBlock(x, y, z, VoxelPalette.DIRT_ID);
+                    } else if (y > alturaReal - 3) {
+                        // As 3 camadas abaixo do topo também são Terra (solo)
+                        setBlock(x, y, z, VoxelPalette.DIRT_ID);
                     } else {
-                        // Coloca blocos de baixo da superficie
+                        // O resto para o fundo é Pedra
                         setBlock(x, y, z, VoxelPalette.STONE_ID);
                     }
                 }
